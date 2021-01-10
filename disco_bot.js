@@ -42,7 +42,7 @@ function miniLeaderboard(msg){
 				console.log(out);
 				if (msg){
 					msg.reply(out);
-				}else {
+				}else {	
 					client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(console.error);
 				}
 			}	  
@@ -58,12 +58,14 @@ function miniLeaderboard(msg){
 
 function schedule(){
 	console.log("schedule");
-	setInterval(function(){ // Set interval for checking
+		(function(){ // Set interval for checking
+		
 		
 		var date = new Date(); // Create a Date object to find out what time it is
 		console.log(date);
+		var 
 		if (date.getDay() == 6 || date.getDay() == 0){
-			cutoffHour = 18;
+			cutOffHour = 18;
 		} else {
 			cutOffHour = 22;
 		}
