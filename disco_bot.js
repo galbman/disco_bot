@@ -15,7 +15,8 @@ function miniLeaderboard(msg){
 	  path: '/svc/crosswords/v6/leaderboard/mini.json',
 	  method: 'GET',
 	  headers: {
-		'nyt-s': '1wo713ZDZz61dACt/MVkib/0MyxE3RJTYlkeQBACjf4wsZRMzUy5fMmkficUcSZ3aojOoea6bgYnSmrYRS.71QMeLFwtyWjsksCXmWy4wxavHlyfqy/AMTgjxDTQO38FS1'
+		'nyt-s': '1wo713ZDZz61dACt/MVkib/0MyxE3RJTYlkeQBACjf4wsZRMzUy5fMmkficUcSZ3aojOoea6bgYnSmrYRS.71QMeLFwtyWjsksCXmWy4wxavHlyfqy/AMTgjxDTQO38FS1',
+		'Content-Type': 'application/json'
 	  }
 	}
 
