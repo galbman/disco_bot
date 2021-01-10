@@ -22,30 +22,33 @@ function miniLeaderboard(msg){
 
 	const req = https.request(options, res => {
 	  console.log(`statusCode: ${res.statusCode}`)
-
-	  res.on('data', d => {
-		 console.log("raw data: " + d);
-		if (d.includes("printDate")){  //dumb way to see if it was success, for now
-		  d = JSON.parse(d);
-		  console.log(d);
-		  var out = "Current NYT Mini leaderboard for " + d.printDate + "\n";
-     	  out += "Rank\tName\tTime\n";
-		  for (i = 0; i < d.data.length; i++){
-			var record = d.data[i];
-			if (record.score){
-				out += record.rank + "\t" + record.name + "\t" + record.score.secondsSpentSolving + "\n";
-			}
-		  }
-		  console.log(out);
-		 if (msg){
-		  msg.reply(out);
-		 }else {
-			client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(console.error);
-		 }
-		}
-	  })
+		var resBody = '';
+		res.on('data', chunk => {
+		  resBody += chunk;
+		})
+		
+		res.on('end', d => {	  
+			if (resBody.includes("printDate")){  //dumb way to see if it was success, for now
+				resBody = JSON.parse(resBody);
+				console.log(resBody);
+				var out = "Current NYT Mini leaderboard for " + resBody.printDate + "\n";
+				out += "Rank\tName\tTime\n";
+				for (i = 0; i < resBody.data.length; i++){
+					var record = resBody.data[i];
+					if (record.score){
+						out += record.rank + "\t" + record.name + "\t" + record.score.secondsSpentSolving + "\n";
+					}
+				}
+				console.log(out);
+				if (msg){
+					msg.reply(out);
+				}else {
+					client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(console.error);
+				}
+			}	  
+		})
 	})
-
+	 
 	req.on('error', error => {
 	  console.error(error)
 	})
