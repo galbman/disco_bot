@@ -1,7 +1,7 @@
 
 const Discord = require("discord.js");
 
-const bot = new Discord.Client();
+const client = new Discord.Client();
 const token = 'Nzk2MTYwOTg4ODEwMzEzNzU5.X_T4sw.KrhusnKtkZwf0gQLC-MgumYYcLg';
 
 const short_prefix = '!';
@@ -47,11 +47,28 @@ function miniLeaderboard(msg){
 	req.end()
 }
 
-bot.on('ready', () => {
+function schedule(){
+	window.setInterval(function(){ // Set interval for checking
+		var date = new Date(); // Create a Date object to find out what time it is
+		if (date.getDay() == 6 || date.getDay() == 0){
+			cutoffHour = 18;
+		} else {
+			cutOffHour = 22;
+		}
+		if(date.getHours() === cutOffHour-1 && date.getMinutes() >= 50){ // Check the time
+			client.channels.cache.get('mini-leaderboard').send('boop');
+		}
+	}, 600000); // Repeat every 10 minutes
+}
+
+client.on('ready', () => {
   console.log('disco_bot ready!')
+  
+  //schedule();  
+  client.channels.cache.get('mini-leaderboard').send('boop');
 })
 
-bot.on('message', async (msg) => {
+client.on('message', async (msg) => {
   var content = msg.content.toLowerCase();
   var prefix;
   if(content.startsWith(short_prefix)) {
@@ -67,6 +84,10 @@ bot.on('message', async (msg) => {
   
   if (command == "leaderboard"){
 	  miniLeaderboard(msg);	  
+  } else {
+	  msg.reply("Supported commands:\n");
+	  //iterate over command list (map?), display each name + usage?
+	  
   }
   
   else {	  
@@ -75,5 +96,5 @@ bot.on('message', async (msg) => {
   
 })
 
-bot.login(token)
+client.login(token)
 
