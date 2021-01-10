@@ -35,7 +35,11 @@ function miniLeaderboard(msg){
 			}
 		  }
 		  console.log(out);
+		 if (msg){
 		  msg.reply(out);
+		 }else {
+			client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(console.error);
+		 }
 		}
 	  })
 	})
@@ -48,24 +52,26 @@ function miniLeaderboard(msg){
 }
 
 function schedule(){
-	window.setInterval(function(){ // Set interval for checking
+	console.log("schedule");
+	setInterval(function(){ // Set interval for checking
+		
 		var date = new Date(); // Create a Date object to find out what time it is
+		console.log(date);
 		if (date.getDay() == 6 || date.getDay() == 0){
 			cutoffHour = 18;
 		} else {
 			cutOffHour = 22;
 		}
-		if(date.getHours() === cutOffHour-1 && date.getMinutes() >= 50){ // Check the time
-			client.channels.cache.get('mini-leaderboard').send('boop');
-		}
+		//if(date.getHours() === cutOffHour-1 && date.getMinutes() >= 50){ // Check the time
+		miniLeaderboard();
+		//}
 	}, 600000); // Repeat every 10 minutes
 }
 
 client.on('ready', () => {
   console.log('disco_bot ready!')
   
-  //schedule();  
-  client.channels.cache.get('mini-leaderboard').send('boop');
+  schedule();
 })
 
 client.on('message', async (msg) => {
