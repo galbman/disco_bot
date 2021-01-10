@@ -63,7 +63,7 @@ function schedule(){
 		
 		var date = new Date(); // Create a Date object to find out what time it is
 		console.log(date);
-		var 
+	 
 		if (date.getDay() == 6 || date.getDay() == 0){
 			cutOffHour = 18;
 		} else {
