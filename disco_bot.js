@@ -23,6 +23,7 @@ function miniLeaderboard(msg){
 	  console.log(`statusCode: ${res.statusCode}`)
 
 	  res.on('data', d => {
+		 console.log("raw data: " + d);
 		if (d.includes("printDate")){  //dumb way to see if it was success, for now
 		  d = JSON.parse(d);
 		  console.log(d);
