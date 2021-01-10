@@ -85,13 +85,9 @@ client.on('message', async (msg) => {
   if (command == "leaderboard"){
 	  miniLeaderboard(msg);	  
   } else {
-	  msg.reply("Supported commands:\n");
+	  msg.reply("wat");	  
+	  //msg.reply("Supported commands:\n");
 	  //iterate over command list (map?), display each name + usage?
-	  
-  }
-  
-  else {	  
-	  msg.reply("wat");
   }
   
 })
