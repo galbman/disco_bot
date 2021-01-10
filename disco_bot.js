@@ -62,9 +62,9 @@ function schedule(){
 		} else {
 			cutOffHour = 22;
 		}
-		//if(date.getHours() === cutOffHour-1 && date.getMinutes() >= 50){ // Check the time
-		miniLeaderboard();
-		//}
+		if(date.getHours() === cutOffHour-1 && date.getMinutes() >= 50){ // Check the time
+			miniLeaderboard();
+		}
 	}, 600000); // Repeat every 10 minutes
 }
 
