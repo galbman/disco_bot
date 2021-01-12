@@ -57,9 +57,9 @@ function miniLeaderboard(msg){
 }
 
 function schedule(){
-	console.log("schedule");
-		(function(){ // Set interval for checking
-		
+	console.log("schedule initialized");
+		setInterval(function(){ // Set interval for checking
+		console.log("schedule ding");
 		
 		var date = new Date(); // Create a Date object to find out what time it is
 		console.log(date);
