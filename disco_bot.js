@@ -42,8 +42,8 @@ function miniLeaderboard(msg){
 				console.log(out);
 				if (msg){
 					msg.reply(out);
-				}else {	
-					client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(console.error);
+				}else {
+					client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(error => console.error("error posting to channel :( " + error));
 				}
 			}	  
 		})
