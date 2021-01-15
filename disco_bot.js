@@ -151,9 +151,9 @@ function excuse(msg, match, playerId){
 	let outStr = "Match " + match.match_id + " played on " + date.toDateString() + " at " + date.toLocaleTimeString('en-US') + ' was ';
 	
 	if (match.radiant_win === player_radiant){
-		outStr += 'won!  This is obviously because YOU played the match!';
+		outStr += 'won! Thanks Obama!';
 	} else {
-		outStr += 'lost :(  Thanks Obama.';
+		outStr += 'lost. Thanks Obama :(';
 	}
 	
 	console.log(outStr);
