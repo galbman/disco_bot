@@ -127,7 +127,7 @@ client.on('message', async (msg) => {
 		} else if (DISCO_ID_MAP.has(parts[0])){
 			getMatches(msg, DISCO_ID_MAP.get(parts[0]));
 		} else {
-			msg.replay("wat");
+			msg.reply("wat");
 		}
 	} else {
 		msg.reply("wat");
