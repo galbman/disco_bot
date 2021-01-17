@@ -130,7 +130,7 @@ client.on('message', async (msg) => {
 			msg.replay("wat");
 		}
 	} else {
-		msg.reply("wat");	  
+		msg.reply("wat");
 		//msg.reply("Supported commands:\n");
 		//iterate over command list (map?), display each name + usage?
 	}
@@ -148,16 +148,16 @@ function excuse(msg, match, playerId){
 	
 	var date = new Date(match.start_time * 1000);
 	
-	let outStr = "Match " + match.match_id + " played on " + date.toDateString() + " at " + date.toLocaleTimeString('en-US') + ' was ';
+	let outStr = "Match [" + match.match_id + "](https://www.dotabuff.com/matches/" + match.match_id + ") played on " + date.toDateString() + " at " + date.toLocaleTimeString('en-US') + ' was ';
 	
 	if (match.radiant_win === player_radiant){
 		outStr += 'won! Thanks Obama!';
 	} else {
 		outStr += 'lost. Thanks Obama :(';
 	}
-	
+		
 	console.log(outStr);
-	msg.reply(outStr);
+	msg.reply(new Discord.MessageEmbed().setDescription(outStr));
 }
 
 //fetches the match, then calls excuse
