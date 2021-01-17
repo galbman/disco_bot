@@ -21,10 +21,17 @@ var DISCO_ID_MAP = new Map();
 
 
 DISCO_ID_MAP.set('galbman', HACKMAN_ID);
+DISCO_ID_MAP.set('hackman', HACKMAN_ID);
 DISCO_ID_MAP.set('mootilda', MIAL_ID);
+DISCO_ID_MAP.set('mial', MIAL_ID);
+DISCO_ID_MAP.set('richard', MIAL_ID);
 DISCO_ID_MAP.set('sirjamz', JAMIE_ID);
+DISCO_ID_MAP.set('jamie', JAMIE_ID);
 DISCO_ID_MAP.set('kama', BRYAN_ID);
+DISCO_ID_MAP.set('bryan', BRYAN_ID);
+DISCO_ID_MAP.set('andrewjm', ANDY_ID);
 DISCO_ID_MAP.set('meowsy', ANDY_ID);
+DISCO_ID_MAP.set('andy', ANDY_ID);
 
 
 client.login(nyt_token);
@@ -244,6 +251,4 @@ function getMatches(msg, playerId){
 
 	req.end()
 }
-
-
 
