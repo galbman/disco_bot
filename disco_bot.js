@@ -22,7 +22,7 @@ var DISCO_ID_MAP = new Map();
 
 DISCO_ID_MAP.set('galbman', HACKMAN_ID);
 DISCO_ID_MAP.set('mootilda', MIAL_ID);
-DISCO_ID_MAP.set('_sirjamz', JAMIE_ID);
+DISCO_ID_MAP.set('sirjamz', JAMIE_ID);
 DISCO_ID_MAP.set('kama', BRYAN_ID);
 DISCO_ID_MAP.set('meowsy', ANDY_ID);
 
@@ -105,6 +105,9 @@ function schedule(){
 
 
 client.on('message', async (msg) => {
+	
+	//console.log(JSON.stringify(msg.author));
+	
   var content = msg.content.toLowerCase();
   var prefix;
   if(content.startsWith(short_prefix)) {
@@ -186,9 +189,7 @@ function getMatch(msg, matchId, playerId){
 		console.log(resBody);
 		excuse(msg, resBody, playerId);
 		
-		
-		
-		
+
 		//return resBody;
 		/*if (msg){
 			msg.reply(out);
