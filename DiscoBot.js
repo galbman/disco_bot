@@ -1,15 +1,19 @@
 
-
 //discord things
 const Discord = require("discord.js");
+const todo = require("./TodoHandler.js");
+const leaderboard = require("./LeaderboardHandler.js");
+
 const client = new Discord.Client();
 const short_prefix = '!';
 const long_prefix = 'hey doodle';
-const https = require('https');
+const disco_token = 'Nzk2MTYwOTg4ODEwMzEzNzU5.X_T4sw.KrhusnKtkZwf0gQLC-MgumYYcLg';
 
+const TEST_CHANNEL = '800440478138368021';
+const LEADERBOARD_CHANNEL = '796927178121019403';
+const SAFE_PLACE_CHANNEL = '452248804066983958';
+const CHAT_CHANNEL = '406604158641373214';
 
-//leaderboard things
-const nyt_token = 'Nzk2MTYwOTg4ODEwMzEzNzU5.X_T4sw.KrhusnKtkZwf0gQLC-MgumYYcLg';
 
 //dots things
 const HACKMAN_ID = 40073716;
@@ -34,87 +38,23 @@ DISCO_ID_MAP.set('meowsy', ANDY_ID);
 DISCO_ID_MAP.set('andy', ANDY_ID);
 
 
-client.login(nyt_token);
+client.login(disco_token);
 
 client.on('ready', () => {
-  console.log('disco_bot ready!')
-  
-  schedule();
+	
+	console.log('discobot ready!'); 
+	leaderboard.schedule(client, LEADERBOARD_CHANNEL);
+		
+	//todo.add("moo", "galbman");
+	//todo.list(data => console.log(data), 'rejected');
+	//todo.complete(0);
+	//todo.accept(0);
+//	var todoList = [{stage: STATUS_PENDING_APPROVAL, desc: "set up todo commands", from: "galbman", created: new Date()}, {stage: STATUS_TODO, desc: "solve world hunger", from: "galbman", created: new Date()}]
+	
 })
 
-
-function miniLeaderboard(msg){
-	const options = {
-	  hostname: 'nyt-games-prd.appspot.com',
-	  port: 443,
-	  path: '/svc/crosswords/v6/leaderboard/mini.json',
-	  method: 'GET',
-	  headers: {
-		'nyt-s': '1wo713ZDZz61dACt/MVkib/0MyxE3RJTYlkeQBACjf4wsZRMzUy5fMmkficUcSZ3aojOoea6bgYnSmrYRS.71QMeLFwtyWjsksCXmWy4wxavHlyfqy/AMTgjxDTQO38FS1',
-		'Content-Type': 'application/json'
-	  }
-	}
-
-	const req = https.request(options, res => {
-	  console.log(`statusCode: ${res.statusCode}`)
-		var resBody = '';
-		res.on('data', chunk => {
-		  resBody += chunk;
-		})
-		
-		res.on('end', d => {	  
-			if (resBody.includes("printDate")){  //dumb way to see if it was success, for now
-				resBody = JSON.parse(resBody);
-				console.log(resBody);
-				var out = "Current NYT Mini leaderboard for " + resBody.printDate + "\n";
-				out += "Rank\tName\tTime\n";
-				for (i = 0; i < resBody.data.length; i++){
-					var record = resBody.data[i];
-					if (record.score){
-						out += record.rank + "\t" + record.name + "\t" + record.score.secondsSpentSolving + "\n";
-					}
-				}
-				console.log(out);
-				if (msg){
-					msg.reply(out);
-				}else {
-					client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(error => console.error("error posting to channel :( " + error));
-				}
-			}	  
-		})
-	})
-	 
-	req.on('error', error => {
-	  console.error(error)
-	})
-
-	req.end()
-}
-
-function schedule(){
-	console.log("schedule initialized");
-		setInterval(function(){ // Set interval for checking
-		console.log("schedule ding");
-		
-		var date = new Date(); // Create a Date object to find out what time it is
-		console.log(date.toLocaleString());
-	 
-		if (date.getDay() == 6 || date.getDay() == 0){
-			cutOffHour = 18;
-		} else {
-			cutOffHour = 22;
-		}
-		if(date.getHours() === cutOffHour-1 && date.getMinutes() >= 50){ // Check the time
-			miniLeaderboard();
-		}
-	}, 600000); // Repeat every 10 minutes
-}
-
-
 client.on('message', async (msg) => {
-	
 	//console.log(JSON.stringify(msg.author));
-	
   var content = msg.content.toLowerCase();
   var prefix;
   if(content.startsWith(short_prefix)) {
@@ -127,24 +67,70 @@ client.on('message', async (msg) => {
   
   const parts = content.slice(prefix.length).trim().split(' ');
   const command = parts.shift();
-  
-  if (command == "leaderboard"){
-	  miniLeaderboard(msg);	  
+
+//iterate over handlers using 'can handle' method
+
+	if (command == "leaderboard"){
+		leaderboard.miniLeaderboard(out => msg.reply(out));
 	} else if (command == "excuse"){
-		//param = 'me' or 'player'
-		if (parts[0] === 'me'){
+		if (parts.length < 1){
+			msg.reply("'leaderboard' command requires a subject parameter, either 'me' or a discord name");
+		} else if (parts[0] === 'me'){
 			getMatches(msg, DISCO_ID_MAP.get(msg.author.username.toLowerCase()));
 		} else if (DISCO_ID_MAP.has(parts[0])){
 			getMatches(msg, DISCO_ID_MAP.get(parts[0]));
 		} else {
 			msg.reply("wat");
 		}
+	} else if (command == "todo"){
+		let action = "";
+		if (parts.length < 1){
+			msg.reply("'todo' command requires one of the following parameters: 'list', 'add', 'reject', 'accept', 'complete'");
+		} else {
+			action = parts.shift();
+		}
+		
+		if (action === 'list'){
+			let listType = "";
+			if (parts.length > 0) {
+				listType = parts[0];
+			}
+			todo.list(out => msg.reply(out), listType);			
+		} else if (action === 'add'){
+			let desc = "";
+			if (parts.length < 1){
+				msg.reply("No suggestion provided, todo list was not modified");
+			} else {
+					desc = parts.join(" ");
+			}
+			todo.add(out => msg.reply(out), desc, msg.author.username);
+		} else if (action === 'reject') {
+			if (msg.author.username.toLowerCase() !== 'galbman'){
+				msg.reply("For reasons, only galbman can use the 'reject' command");
+			} else {
+				todo.reject(out => msg.reply(out), parts[0]);
+			}
+		} else if (action === 'accept'){
+			if (msg.author.username.toLowerCase() !== 'galbman'){
+				msg.reply("For reasons, only galbman can use the 'accept' command");
+			} else {
+				todo.accept(out => msg.reply(out), parts[0]);
+			}
+		} else if (action === 'complete'){
+			if (msg.author.username.toLowerCase() !== 'galbman'){
+				msg.reply("For reasons, only galbman can use the 'complete' command");
+			} else {
+				todo.complete(out => msg.reply(out), parts[0]);
+			}			
+		} else {
+			msg.reply("'todo' command requires one of the following parameters: 'list', 'add', 'reject', 'accept', 'complete'");
+		}
 	} else {
 		msg.reply("wat");
 		//msg.reply("Supported commands:\n");
 		//iterate over command list (map?), display each name + usage?
 	}
-})
+});
 
 
 //determines reason for win or loss
@@ -165,7 +151,7 @@ function excuse(msg, match, playerId){
 	} else {
 		outStr += 'lost. Thanks Obama :(';
 	}
-		
+
 	console.log(outStr);
 	msg.reply(new Discord.MessageEmbed().setDescription(outStr));
 }
