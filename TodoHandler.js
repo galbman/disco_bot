@@ -66,10 +66,10 @@ module.exports = {
 	//can be done by anyone
 	add: function (callback, desc, author) {
 		let data = readList();
-		data.push({stage: STATUS_PENDING_APPROVAL, desc: desc, from: author, created: new Date()});
+		let newLength = data.push({stage: STATUS_PENDING_APPROVAL, desc: desc, from: author, created: new Date()});
 		writeList(data);
-		callback("Suggestion <" + desc + "> was added");
-	},	
+		callback("Suggestion <" + desc + "> was added at index " + (newLength - 1));
+	},
 
 	//only can be done by hackman
 	complete: function (callback, index) {
@@ -110,46 +110,3 @@ function writeList(data){
 function sortArray(){
 	
 }
-
-/*
-fs.readFile('./resources/todo.json', 'utf8', function(err, data) {
-			if (err){
-				console.log("error: " + err);
-			}
-			//make data prettier
-			var out = "";
-			if (!data || !data.length){
-				out = "Todo list is currently empty.  Feel free to make a suggestion with the the 'todo add <description>' command!";
-			}
-			callback(data);
-		});
-*/
-
-/*
-
-	fs.writeFile('./resources/todo.json', JSON.stringify(todoList), function (err) {
-	  if (err) throw err;
-	  console.log('Saved!');
-	});
-	
-	
-	
-	
-	
-	
-		list  >> anyone, only status+2 by default, else 
-	add  >> anyone 
-	check [#] --only hackman, suggestion or list
-	approve [# or all] -- only hackman, only suggestion
-	reject [# or all] --only hackman, suggestion or list
-	
-	
-	
-	const STATUS_PENDING_APPROVAL = 0;
-	const STATUS_REJECTED = 1;
-	const STATUS_TODO = 2;
-	const STATUS_DONE = 3;
-		
-	
-	
-	*/

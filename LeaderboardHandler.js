@@ -73,6 +73,5 @@ module.exports = {
 			}
 		}, 600000); // Repeat every 10 minutes
 	}
-	
-	
+
 };
