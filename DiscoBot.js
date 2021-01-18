@@ -87,6 +87,7 @@ client.on('message', async (msg) => {
 		let action = "";
 		if (parts.length < 1){
 			msg.reply("'todo' command requires one of the following parameters: 'list', 'add', 'reject', 'accept', 'complete'");
+			return;
 		} else {
 			action = parts.shift();
 		}
