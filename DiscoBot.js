@@ -1,6 +1,7 @@
 
 //discord things
 const Discord = require("discord.js");
+const https = require('https');
 const todo = require("./TodoHandler.js");
 const leaderboard = require("./LeaderboardHandler.js");
 
