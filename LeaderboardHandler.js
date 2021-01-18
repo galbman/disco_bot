@@ -1,7 +1,14 @@
 const https = require('https');
 
-module.exports = {
+const COLUMN_0_SIZE = 7;
+const COLUMN_1_SIZE = 13;
+const COLUMN_2_SIZE = 6;
+const COLUMN_0_HEADER = "Rank";
+const COLUMN_1_HEADER = "Name";
+const COLUMN_2_HEADER = "Time";
 
+
+module.exports = {
 
 	miniLeaderboard: function(callback){
 		const options = {
@@ -26,16 +33,17 @@ module.exports = {
 				if (resBody.includes("printDate")){  //dumb way to see if it was success, for now
 					resBody = JSON.parse(resBody);
 					console.log(resBody);
-					var out = "Current NYT Mini leaderboard for " + resBody.printDate + "\n";
-					out += "Rank\tName\tTime\n";
+					var out = "\nCurrent NYT Mini leaderboard for " + resBody.printDate + "\n";
+					out += "`" + COLUMN_0_HEADER.padEnd(COLUMN_0_SIZE) + COLUMN_1_HEADER.padEnd(COLUMN_1_SIZE) + COLUMN_2_HEADER.padEnd(COLUMN_2_SIZE) + "\n";
 					for (i = 0; i < resBody.data.length; i++){
 						var record = resBody.data[i];
 						if (record.score){
-							out += record.rank + "\t" + record.name + "\t" + record.score.secondsSpentSolving + "\n";
+							out += record.rank.padEnd(COLUMN_0_SIZE) + record.name.padEnd(COLUMN_1_SIZE) + record.score.secondsSpentSolving.toString().padEnd(COLUMN_2_SIZE) + "\n";
 						}
 					}
+					out += "`";
 					callback(out);
-				}	  
+				}
 			})
 		})
 
@@ -45,8 +53,8 @@ module.exports = {
 
 		req.end()
 	},
-	
-	
+
+
 	schedule: function(client, channelName){
 		console.log("schedule initialized");
 		setInterval(function(){

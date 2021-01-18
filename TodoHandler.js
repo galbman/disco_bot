@@ -69,8 +69,7 @@ module.exports = {
 		data.push({stage: STATUS_PENDING_APPROVAL, desc: desc, from: author, created: new Date()});
 		writeList(data);
 		callback("Suggestion <" + desc + "> was added");
-	},
-	
+	},	
 
 	//only can be done by hackman
 	complete: function (callback, index) {

@@ -42,7 +42,7 @@ DISCO_ID_MAP.set('andy', ANDY_ID);
 client.login(disco_token);
 
 client.on('ready', () => {
-	
+		
 	console.log('discobot ready!'); 
 	leaderboard.schedule(client, LEADERBOARD_CHANNEL);
 		
