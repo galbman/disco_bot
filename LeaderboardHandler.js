@@ -31,14 +31,14 @@ module.exports = {
 
 			res.on('end', d => {
 				if (resBody.includes("printDate")){  //dumb way to see if it was success, for now
-					resBody = JSON.parse(resBody);
 					console.log(resBody);
+					resBody = JSON.parse(resBody);
 					var out = "\nCurrent NYT Mini leaderboard for " + resBody.printDate + "\n";
 					out += "`" + COLUMN_0_HEADER.padEnd(COLUMN_0_SIZE) + COLUMN_1_HEADER.padEnd(COLUMN_1_SIZE) + COLUMN_2_HEADER.padEnd(COLUMN_2_SIZE) + "\n";
 					for (i = 0; i < resBody.data.length; i++){
 						var record = resBody.data[i];
-						if (record.score){
-							out += record.rank.padEnd(COLUMN_0_SIZE) + record.name.padEnd(COLUMN_1_SIZE) + record.score.secondsSpentSolving.toString().padEnd(COLUMN_2_SIZE) + "\n";
+						if (record.score && record.score.secondsSpentSolving){
+							out += (record.rank ? record.rank : "").padEnd(COLUMN_0_SIZE) + record.name.padEnd(COLUMN_1_SIZE) + record.score.secondsSpentSolving.toString().padEnd(COLUMN_2_SIZE) + "\n";
 						}
 					}
 					out += "`";
