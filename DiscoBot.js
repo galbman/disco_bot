@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 const https = require('https');
 const todo = require("./TodoHandler.js");
 const leaderboard = require("./LeaderboardHandler.js");
+const ready = require("./ReadyHandler.js");
 
 const client = new Discord.Client();
 const short_prefix = '!';
@@ -127,6 +128,8 @@ client.on('message', async (msg) => {
 		} else {
 			msg.reply("'todo' command requires one of the following parameters: 'list', 'add', 'reject', 'accept', 'complete'");
 		}
+	} else if (command == "ready"){
+		ready.start(msg);
 	} else {
 		msg.reply("wat");
 		//msg.reply("Supported commands:\n");
@@ -146,7 +149,7 @@ function excuse(msg, match, playerId){
 	
 	var date = new Date(match.start_time * 1000);
 	
-	let outStr = "Match [" + match.match_id + "](https://www.dotabuff.com/matches/" + match.match_id + ") played on " + date.toDateString() + " at " + date.toLocaleTimeString('en-US') + ' was ';
+	let outStr = "Match [" + match.match_id + "](https://www.opendota.com/matches/" + match.match_id + "/) played on " + date.toDateString() + " at " + date.toLocaleTimeString('en-US') + ' was ';
 	
 	if (match.radiant_win === player_radiant){
 		outStr += 'won! Thanks Obama!';
@@ -176,21 +179,13 @@ function getMatch(msg, matchId, playerId){
 		let resBody = '';
 		
 		res.on('data', chunk => {
-		  resBody += chunk;
+			resBody += chunk;
 		})
 		
 		res.on('end', d => {  
-		resBody = JSON.parse(resBody);
-		console.log(resBody);
-		excuse(msg, resBody, playerId);
-		
-
-		//return resBody;
-		/*if (msg){
-			msg.reply(out);
-		}else {
-			client.channels.fetch('796927178121019403').then(channel => channel.send(out)).catch(error => console.error("error posting to channel :( " + error));
-		}*/	 
+			resBody = JSON.parse(resBody);
+			console.log(resBody);
+			excuse(msg, resBody, playerId);
 		})
 	})
 	 
