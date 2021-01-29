@@ -4,7 +4,7 @@ const Discord = require("discord.js");
 const https = require('https');
 const todo = require("./TodoHandler.js");
 const leaderboard = require("./LeaderboardHandler.js");
-const ready = require("./ReadyHandler.js");
+//const ready = require("./ReadyHandler.js");
 
 const client = new Discord.Client();
 const short_prefix = '!';
@@ -129,7 +129,7 @@ client.on('message', async (msg) => {
 			msg.reply("'todo' command requires one of the following parameters: 'list', 'add', 'reject', 'accept', 'complete'");
 		}
 	} else if (command == "ready"){
-		ready.start(msg);
+		//ready.start(msg);
 	} else {
 		msg.reply("wat");
 		//msg.reply("Supported commands:\n");
