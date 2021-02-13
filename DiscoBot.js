@@ -129,7 +129,7 @@ client.on('message', async (msg) => {
 			msg.reply("'todo' command requires one of the following parameters: 'list', 'add', 'reject', 'accept', 'complete'");
 		}
 	} else if (command == "ready"){
-		//ready.start(msg);
+		ready.start(msg);
 	} else {
 		msg.reply("wat");
 		//msg.reply("Supported commands:\n");
