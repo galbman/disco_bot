@@ -57,10 +57,12 @@ function react(msg, origMsg){
 
 ////relies on EMOJI_NO being a custom emoji.  For some reason, default emojis do not include an identifier in the response.
 function respond(results, msg){
+
+	//results = array of MessageReaction
 	
 	if (!results || !results.length || results.length == 0){
 		msg.reply("Ready check failed.  Nobody responded :(");
-	} else if (results.length == 2 || results[0].emojiID == EMOJI_NO){
+	} else if (results.length == 2 || results[0].emoji.id == EMOJI_NO){
 		msg.reply("Ready check failed.  One or more respondants indicated 'not ready'");
 	} else {
 		msg.reply("Ready check succeeded!  Party of " + (results[0].count - 1) + " gathered!");
