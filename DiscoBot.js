@@ -1,3 +1,9 @@
+//properties file
+const pr = require('properties-reader');
+
+const CONFIG_PATH = './resources/config.txt';
+const PROPERTIES = pr(CONFIG_PATH);
+
 
 //discord things
 const Discord = require("discord.js");
@@ -9,7 +15,7 @@ const ready = require("./ReadyHandler.js");
 const client = new Discord.Client();
 const short_prefix = '!';
 const long_prefix = 'hey doodle';
-const disco_token = 'Nzk2MTYwOTg4ODEwMzEzNzU5.X_T4sw.KrhusnKtkZwf0gQLC-MgumYYcLg';
+const disco_token = PROPERTIES.get('discord.secret');
 
 const TEST_CHANNEL = '800440478138368021';
 const LEADERBOARD_CHANNEL = '796927178121019403';
@@ -18,6 +24,8 @@ const CHAT_CHANNEL = '406604158641373214';
 
 
 //dots things
+const OPENDOTA_AUTH = PROPERTIES.get('opendota.secret');
+
 const HACKMAN_ID = 40073716;
 const MIAL_ID = 51470124;
 const JAMIE_ID = 48519055;
@@ -70,7 +78,6 @@ client.on('message', async (msg) => {
   const parts = content.slice(prefix.length).trim().split(' ');
   const command = parts.shift();
 
-//iterate over handlers using 'can handle' method
 
 	if (command == "leaderboard"){
 		leaderboard.miniLeaderboard(out => msg.reply(out));
@@ -204,7 +211,7 @@ function getMatches(msg, playerId){
 		path: '/api/players/'+playerId+'/recentMatches',
 		method: 'GET',
 		headers: {
-			Authorization: 'Bearer ea5b8d3e-7aba-4611-8c13-7f71a6d6f054'
+			Authorization: OPENDOTA_AUTH
 		}
 	}
 	
